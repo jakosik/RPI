@@ -3,6 +3,8 @@
 
 Snake::Snake() {
 
+    fillWalls();
+    defineStartPosition();
 
 }
 
@@ -34,6 +36,8 @@ void Snake::fillWalls(){
 ********************
 
 **/
+
+
 }
 
 
