@@ -1,16 +1,27 @@
 #include <iostream>
 #include "../include/Snake.h"
-
+#include <ctime>
+#include"../include/getKey.h"
+#include <unistd.h>
 Snake::Snake() {
 
+    this->direction='q';
     for(int i=0; i<40;i++) {
         for(int j = 0;j<40;j++) {
             this->level[i][j]=' ';
         }
     }
-
     fillWalls();
     defineStartPosition();
+
+}
+
+void Snake::boucler(){
+    int c=0;
+        while(this->direction != 'p') {
+            usleep(1);
+        cout<<this->direction<<endl;
+    }
 }
 
 void Snake::defineStartPosition() {
@@ -50,6 +61,16 @@ void Snake::fillWalls(){
 **/
 
 
+}
+void Snake::getInput() {
+    sauvegarderConfigTerminal();
+    do {
+        this->direction=getchar();
+    } while(this->direction!='p');
+    restaurerConfigTerminal();
+}
+void* Snake::launchForThread(void* p) {
+    static_cast<Snake*>(p)->getInput();
 }
 
 

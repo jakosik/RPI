@@ -1,6 +1,6 @@
 INCLUDEDIRECTORY=include
-gcc_croise =  g++
-CXXFLAGS = -std=c++11
+gcc_croise =  g++ 
+CXXFLAGS = -std=c++11 -pthread 
 HEADERS = $(wildcard include/*.h)
 OBJECTS = $(wildcard $(SRC)/*.o)
 SRC= src
