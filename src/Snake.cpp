@@ -1,20 +1,30 @@
 #include "../include/Snake.h"
 #include <ctime>
+#include"../include/getKey.h"
+#include <unistd.h>
 #include <chrono>
 
 
 Snake::Snake() {
     srand(time(NULL));
 
+    this->direction='q';
     for(int i=0; i<40;i++) {
         for(int j = 0;j<40;j++) {
             this->level[i][j]=' ';
         }
     }
-
     fillWalls();
     defineStartPosition();
 
+}
+
+void Snake::boucler(){
+    int c=0;
+        while(this->direction != 'p') {
+            usleep(1);
+        cout<<this->direction<<endl;
+    }
 }
 
 void Snake::defineStartPosition() {
@@ -67,6 +77,16 @@ void Snake::genererCoord(int *coordx, int *coordy){
     *coordx = rand()%38+1;
     *coordy = rand()%38+1;
 
+}
+void Snake::getInput() {
+    sauvegarderConfigTerminal();
+    do {
+        this->direction=getchar();
+    } while(this->direction!='p');
+    restaurerConfigTerminal();
+}
+void* Snake::launchForThread(void* p) {
+    static_cast<Snake*>(p)->getInput();
 }
 
 void Snake::genererFruit(){

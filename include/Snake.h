@@ -14,6 +14,9 @@ class Snake {
         Snake();
         void fillWalls();
         void defineStartPosition();
+        void getInput();
+        void boucler();
+        static void* launchForThread(void* p);
         void genererFruit();
         void genererCoord(int *coordx, int *coordy);
 
@@ -28,6 +31,7 @@ class Snake {
         // Caractéristiques du serpent 
 
         int taille=5;
+        char direction;
         list<tuple<char, char, char>> coord;
 
 };
