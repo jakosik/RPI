@@ -2,6 +2,11 @@
 #include <tuple>
 #include <list>
 
+
+// Caractéristiques des fruits 
+const int NBFRUITMAX = 1;
+const int PTSFRUITS = 10;
+
 using namespace std;
 class Snake {
 

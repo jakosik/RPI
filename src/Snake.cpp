@@ -37,12 +37,13 @@ void Snake::defineSnakePosition() {
 
 }
 void Snake::defineStartPosition() {
-    
-    
+    tuple<char, int, char> corp;
+
     for(int i=19;i<23;i++) {
         this->level [20][i] = '#';
         this->coord.push_back(make_tuple(20,i,'#'));
     }
+
     this->level[20][23] = '@';
     this->coord.push_back(make_tuple(20,23,'@'));
     
@@ -122,6 +123,7 @@ void Snake::majSnake(){
             for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
             std::chrono::system_clock::now() < runUntil;){
                 usleep(1);
+                // toutes les 100 milisecondes, on obtient l'actualisation de l'écran
             }
             this->update();
 
