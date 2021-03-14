@@ -1,7 +1,10 @@
-#include <iostream>
 #include "../include/Snake.h"
+#include <ctime>
+#include <chrono>
+
 
 Snake::Snake() {
+    srand(time(NULL));
 
     for(int i=0; i<40;i++) {
         for(int j = 0;j<40;j++) {
@@ -14,6 +17,8 @@ Snake::Snake() {
 }
 
 void Snake::defineStartPosition() {
+    
+    
     for(int i=19;i<23;i++) {
         this->level [20][i] = '#';
     }
@@ -48,8 +53,33 @@ void Snake::fillWalls(){
 ********************
 
 **/
+}
 
+void Snake::genererCoord(int *coordx, int *coordy){
+
+    *coordx = rand()%38+1;
+    *coordy = rand()%38+1;
 
 }
 
+void Snake::genererFruit(){
+    int x,y;
 
+    do{genererCoord(&x,&y);} 
+    while(level[x][y] != ' ');
+
+    level[x][y] = '&';
+
+}
+
+void majSnake(){
+
+       for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
+            std::chrono::system_clock::now() < runUntil;){
+
+                
+
+            }
+        
+
+}
