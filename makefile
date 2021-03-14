@@ -1,9 +1,8 @@
-OBJDIR=build
 INCLUDEDIRECTORY=include
 gcc_croise =  g++
 CXXFLAGS = -std=c++11
 HEADERS = $(wildcard include/*.h)
-OBJECTS = $(wildcard $(OBJDIR)/*.o)
+OBJECTS = $(wildcard $(SRC)/*.o)
 SRC= src
 PRJSRC= $(wildcard $(SRC)/*.cpp)
 CPPFILES=$(filter %.cpp, $(PRJSRC))

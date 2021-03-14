@@ -1,17 +1,24 @@
 #include "../include/Snake.h"
+#include "../include/MenuFunctions.h"
 
-enum choice {play,quit};
 
-int displayMenu() {/*
-    cout <<" ______________________________________________________________________________________"<<endl;
-    cout <<"|                                                                                      |"<<endl;
-    cout <<"|                           SNAKE, THE ORIGINAL GAME                                   |"<<endl;
-*/}
+int displayMenu() {
+    displayBorder(false);
+    displayTextInMenu("SNAKE, THE ORIGINAL GAME", GREEN);
+    displayTextInMenu("brought to you by Vincent and Jack", GREEN);
+    displayBorder(true);
+    displayTextInMenu("OPTIONS:", BLUE);
+    displayTextInMenu("1. PLAY", YELLOW);
+    displayTextInMenu("2. QUIT", YELLOW);
+    displayBorder(true);
+}
+
 
 int main() {
+    cout<<flush<<endl;
+    system("clear");
     Snake game;
     int choice = displayMenu();
-    cout<<"test"<<endl;
     switch(choice) {
         case play:
             game.defineStartPosition();
@@ -21,3 +28,4 @@ int main() {
     }
     return 0;
 }
+
