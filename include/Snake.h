@@ -10,14 +10,17 @@ class Snake {
         void fillWalls();
         void defineStartPosition();
         void getInput();
-        void boucler();
         static void* launchForThread(void* p);
         void genererFruit();
         void genererCoord(int *coordx, int *coordy);
 
         void majSnake();
-
+        void displayGrid(bool init);
         void grow();
+        void update();
+        void handleMovement();
+        void fillVoid();
+        void defineSnakePosition();
 
     private:
         // Caractéristiques du level
@@ -27,7 +30,7 @@ class Snake {
 
         int taille=5;
         char direction;
-        list<tuple<char, char, char>> coord;
+        list<tuple<int, int, char>> coord;
 
 };
 

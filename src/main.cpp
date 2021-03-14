@@ -29,7 +29,7 @@ int main() {
             game.fillWalls();
             pthread_t snakeThread;
             retSnake = pthread_create(&snakeThread,NULL, Snake::launchForThread, &game);
-            game.boucler();
+            game.majSnake();
             
 
         case quit:

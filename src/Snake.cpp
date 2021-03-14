@@ -9,31 +9,43 @@ Snake::Snake() {
     srand(time(NULL));
 
     this->direction='q';
+    displayGrid(true);
+    
+
+}
+
+void Snake::fillVoid()  {
     for(int i=0; i<40;i++) {
         for(int j = 0;j<40;j++) {
             this->level[i][j]=' ';
         }
     }
-    fillWalls();
-    defineStartPosition();
-
 }
-
-void Snake::boucler(){
-    int c=0;
-        while(this->direction != 'p') {
-            usleep(1);
-        cout<<this->direction<<endl;
+void Snake::displayGrid(bool init = false) {
+    fillVoid();
+    fillWalls();
+    init?defineStartPosition(): defineSnakePosition();
+    system("clear");
+    for(int j=0;j<40;j++){
+        for(int i=0;i<40;i++) {
+            cout<<this->level[j][i];
+        }
+        cout<<endl;
     }
 }
+void Snake::defineSnakePosition() {
 
+}
 void Snake::defineStartPosition() {
     
     
     for(int i=19;i<23;i++) {
         this->level [20][i] = '#';
+        this->coord.push_back(make_tuple(20,i,'#'));
     }
     this->level[20][23] = '@';
+    this->coord.push_back(make_tuple(20,23,'@'));
+    
 }
 
 void Snake::fillWalls(){
@@ -86,21 +98,35 @@ void* Snake::launchForThread(void* p) {
 void Snake::genererFruit(){
     int x,y;
 
-    do{genererCoord(&x,&y);} 
-    while(level[x][y] != ' ');
-
+    do{
+        genererCoord(&x,&y);
+    } while(level[x][y] != ' ');
     level[x][y] = '&';
 
 }
+void Snake::handleMovement(){
+    for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
+        if(get<2>((*it)) == '@') {
 
-void majSnake(){
+        }
+    }
+}
+void Snake::update() {
+    this->displayGrid();
 
-       for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
+}
+
+void Snake::majSnake(){
+        this->displayGrid(true);
+        while (this->direction != 'p') {
+            for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
             std::chrono::system_clock::now() < runUntil;){
-
-                
-
+                usleep(1);
             }
+            this->update();
+
+        }
+       
         
 
 }
