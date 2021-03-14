@@ -14,15 +14,22 @@ Snake::Snake() {
 
     fillWalls();
     defineStartPosition();
+
 }
 
 void Snake::defineStartPosition() {
-    
-    
+    tuple<char, int, char> corp;
+
     for(int i=19;i<23;i++) {
         this->level [20][i] = '#';
+        corp = make_tuple(20, i, '#');
+        coord.push_back(corp);
     }
+
     this->level[20][23] = '@';
+    corp = make_tuple(20,23,'@');
+    coord.push_back(corp);
+
 }
 
 void Snake::fillWalls(){
@@ -75,9 +82,9 @@ void Snake::genererFruit(){
 void majSnake(){
 
        for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
-            std::chrono::system_clock::now() < runUntil;){
+            std::chrono::system_clock::now() < runUntil;){               
 
-                
+            // toutes les 100 milisecondes, on obtient l'actualisation de l'écran
 
             }
         
