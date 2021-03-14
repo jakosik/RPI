@@ -1,9 +1,18 @@
 #include <iostream>
-#include "include/Snake.h"
+#include "../include/Snake.h"
 
 Snake::Snake() {
-
-
+    for(int i=0; i<40;i++) {
+        for(int j = 0;j<40;j++) {
+            this->level[i][j]=' ';
+        }
+    }
+}
+void Snake::defineStartPosition() {
+    for(int i=19;i<23;i++) {
+        this->level [20][i] = '#';
+    }
+    this->level[20][23] = '@';
 }
 
 void Snake::fillWalls(){
