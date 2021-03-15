@@ -1,7 +1,9 @@
 #include <iostream>
 #include <tuple>
 #include <list>
-
+#include <ctime>
+#include <unistd.h>
+#include <chrono>
 
 // Caractéristiques des fruits 
 const int NBFRUITMAX = 1;
@@ -14,7 +16,6 @@ class Snake {
 
     public:
         Snake();
-        ~Snake();
         void fillWalls();
         void defineStartPosition();
         void getInput();

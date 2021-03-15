@@ -1,20 +1,12 @@
 #include "../include/Snake.h"
-#include <ctime>
-#include"../include/getKey.h"
-#include <unistd.h>
-#include <chrono>
-
 
 Snake::Snake() {
-    sauvegarderConfigTerminal();
+    
     srand(time(NULL));
     defineStartPosition();
     this->direction='q';
     youLoseFlag = false;
 
-}
-Snake::~Snake() {
-    restaurerConfigTerminal();
 }
 
 void Snake::fillVoid()  {
@@ -94,6 +86,7 @@ void Snake::getInput() {
 }
 void* Snake::launchForThread(void* p) {
     static_cast<Snake*>(p)->getInput();
+    return NULL;
 }
 
 void Snake::genererFruit(){
@@ -111,10 +104,12 @@ void Snake::CheckHitWall(int xHead, int yHead) {
         this->youLoseFlag = true;
 }
 void Snake::checkSnakeCollision(int x, int y, int xHead, int yHead) {
+    if(xHead==x && yHead ==y)
+        this->youLoseFlag = true;
 }
 void Snake::handleMovement()
 {
-    int xOld, yOld;
+    int xOld, yOld,xHead,yHead;
     if (direction == 'C' || direction == 'A' || direction == 'D' || direction == 'B') {
         for (list<tuple<int, int, char>>::iterator it = this->coord.begin(); it != this->coord.end(); it++) {
             if (get<2>((*it)) == '@') {
@@ -134,17 +129,20 @@ void Snake::handleMovement()
                     get<0>((*it)) = get<0>((*it)) + 1; // y=y+1, on déplace la tete vers le bas
                     break;
                 }
-                CheckHitWall(get<1>((*it)), get<0>((*it)));
+                xHead = get<1>((*it));
+                yHead = get<0>((*it));
+                CheckHitWall(xHead, yHead);
                 break;
             }
         }
-        int xTemp, yTemp;
+        int xTemp, yTemp; 
         for (list<tuple<int, int, char>>::iterator it2 = this->coord.begin(); it2 != this->coord.end(); it2++) {
             if (get<2>((*it2)) != '@') {
                 yTemp = get<0>((*it2));
                 xTemp = get<1>((*it2));
                 get<0>((*it2)) = yOld;
                 get<1>((*it2)) = xOld;
+                checkSnakeCollision(xOld,yOld,xHead,yHead);
                 yOld = yTemp;
                 xOld = xTemp;
             }
