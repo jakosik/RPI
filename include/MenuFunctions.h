@@ -22,6 +22,7 @@ string colorOutput(int color) {
         case BLUE: 
             return string ("\033[0;34m");
     }
+    return "";
     
 }
 
@@ -30,4 +31,16 @@ void displayTextInMenu(string toDisplay, int color = NORMAL){
     string secondSpace = (totalSpaces%2==0) ? string(int(totalSpaces/2), ' '):string(int(totalSpaces/2)+1, ' ');
     cout<<"|"<< string(int(totalSpaces/2), ' ')<<colorOutput(color)<< toDisplay<<colorOutput(NORMAL)
     <<secondSpace<<"|"<<endl;
+}
+int displayMenu() {
+    displayBorder(false);
+    displayTextInMenu("SNAKE, THE ORIGINAL GAME", GREEN);
+    displayBorder(true);
+    displayTextInMenu("OPTIONS:", BLUE);
+    displayTextInMenu("1. PLAY", YELLOW);
+    displayTextInMenu("2. QUIT", YELLOW);
+    displayBorder(true);
+    int retour;
+    cin >> retour;
+    return retour;
 }

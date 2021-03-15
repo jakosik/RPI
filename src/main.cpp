@@ -1,22 +1,7 @@
 #include "../include/Snake.h"
 #include "../include/MenuFunctions.h"
 #include <thread>
-
-int displayMenu() {
-    displayBorder(false);
-    displayTextInMenu("SNAKE, THE ORIGINAL GAME", GREEN);
-    displayTextInMenu("brought to you by Vincent and Jack", GREEN);
-    displayBorder(true);
-    displayTextInMenu("OPTIONS:", BLUE);
-    displayTextInMenu("1. PLAY", YELLOW);
-    displayTextInMenu("2. QUIT", YELLOW);
-    displayBorder(true);
-    int retour;
-    cin >> retour;
-    return retour;
-}
-
-
+#include"../include/getKey.h"
 int main() {
     cout<<flush<<endl;
     system("clear");
@@ -25,13 +10,11 @@ int main() {
     int retSnake;
     switch(choice) {
         case play:
-            game.defineStartPosition();
-            game.fillWalls();
             pthread_t snakeThread;
+            sauvegarderConfigTerminal();
             retSnake = pthread_create(&snakeThread,NULL, Snake::launchForThread, &game);
             game.majSnake();
-            
-
+            restaurerConfigTerminal();
         case quit:
             exit(0);
     }

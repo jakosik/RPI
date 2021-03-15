@@ -9,6 +9,9 @@
         "vector": "cpp",
         "string_view": "cpp",
         "initializer_list": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "iostream": "cpp"
     }
 }
