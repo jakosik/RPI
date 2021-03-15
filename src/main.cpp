@@ -25,8 +25,6 @@ int main() {
     int retSnake;
     switch(choice) {
         case play:
-            game.defineStartPosition();
-            game.fillWalls();
             pthread_t snakeThread;
             retSnake = pthread_create(&snakeThread,NULL, Snake::launchForThread, &game);
             game.majSnake();
