@@ -21,6 +21,7 @@ void Snake::fillVoid()  {
         }
     }
 }
+
 void Snake::displayGrid(bool init = false) {
     fillVoid();
     fillWalls();
@@ -33,6 +34,7 @@ void Snake::displayGrid(bool init = false) {
         cout<<endl;
     }
 }
+
 void Snake::defineSnakePosition() {
 
 }
@@ -105,6 +107,7 @@ void Snake::genererFruit(){
     level[x][y] = '&';
 
 }
+
 void Snake::handleMovement(){
     for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
         if(get<2>((*it)) == '@') {
@@ -112,6 +115,7 @@ void Snake::handleMovement(){
         }
     }
 }
+
 void Snake::update() {
     this->displayGrid();
 
@@ -129,6 +133,4 @@ void Snake::majSnake(){
 
         }
        
-        
-
 }
