@@ -24,7 +24,18 @@ string colorOutput(int color) {
     }
     
 }
-
+int displayMenu() {
+    displayBorder(false);
+    displayTextInMenu("SNAKE, THE ORIGINAL GAME", GREEN);
+    displayBorder(true);
+    displayTextInMenu("OPTIONS:", BLUE);
+    displayTextInMenu("1. PLAY", YELLOW);
+    displayTextInMenu("2. QUIT", YELLOW);
+    displayBorder(true);
+    int retour;
+    cin >> retour;
+    return retour;
+}
 void displayTextInMenu(string toDisplay, int color = NORMAL){
     int totalSpaces = 86 - toDisplay.size(); 
     string secondSpace = (totalSpaces%2==0) ? string(int(totalSpaces/2), ' '):string(int(totalSpaces/2)+1, ' ');
