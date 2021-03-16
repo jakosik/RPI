@@ -2,6 +2,8 @@
 #include "../include/MenuFunctions.h"
 #include <thread>
 #include"../include/getKey.h"
+
+
 int main() {
     cout<<flush<<endl;
     system("clear");
@@ -20,4 +22,3 @@ int main() {
     }
     return 0;
 }
-
