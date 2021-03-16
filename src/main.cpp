@@ -3,6 +3,7 @@
 #include <thread>
 #include"../include/getKey.h"
 int main() {
+    
     cout<<flush<<endl;
     system("clear");
     Snake game;

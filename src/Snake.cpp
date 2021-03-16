@@ -1,6 +1,8 @@
 #include "../include/Snake.h"
+#include "../include/Raspberry.h"
 
 Snake::Snake() {
+    wiringPiSetup ();
     growFlag=false;
     srand(time(NULL));
     defineStartPosition();
@@ -85,7 +87,8 @@ void Snake::genererCoord(int *coordx, int *coordy){
 
 void Snake::getInput() {
     do {
-        this->direction=getchar();
+        // this->direction=getchar();
+        handleInput(&(this->direction));
     } while(this->direction!='p' && !this->youLoseFlag);
 }
 void* Snake::launchForThread(void* p) {
@@ -165,6 +168,9 @@ void Snake::handleMovement(){
                 checkHitWall(xHead, yHead);
                 if(checkFruit(xHead,yHead)){
                     grow();
+                    activateVibration();
+                    for(int i=0;i<400000;i++);
+                    deActivateVibration();
                 }
                 break;
             }
@@ -195,12 +201,17 @@ void Snake::update() {
 
 void Snake::majSnake(){
         while (this->direction != 'p' && !this->youLoseFlag) {
-            for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(200); 
+            for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
             std::chrono::system_clock::now() < runUntil;){
                 usleep(1);
                 // toutes les 100 milisecondes, on obtient l'actualisation de l'écran
             }
             this->update();
+        }
+        if(this->youLoseFlag) {
+            activateSound();
+            for(int i=0;i<400000;i++);
+            deActivateSound();
         }
        
 }
