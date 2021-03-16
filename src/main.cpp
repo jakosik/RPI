@@ -5,18 +5,23 @@
 
 
 int main() {
+    
     cout<<flush<<endl;
     system("clear");
     Snake game;
     int choice = displayMenu()-1;
-    int retSnake;
+    int retSnake, retSon;
     switch(choice) {
         case play:
-            pthread_t snakeThread;
+            pthread_t snakeThread,buzzerThread;
             sauvegarderConfigTerminal();
+            retSon = pthread_create(&buzzerThread,NULL, Snake::launchForThreadBuzzer, &game);
             retSnake = pthread_create(&snakeThread,NULL, Snake::launchForThread, &game);
             game.majSnake();
             restaurerConfigTerminal();
+            pthread_join(retSon, NULL);
+            pthread_join(retSnake, NULL);
+            
         case quit:
             exit(0);
     }
