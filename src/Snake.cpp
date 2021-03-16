@@ -12,6 +12,20 @@ Snake::Snake() {
 
 }
 
+void Snake::handleBuzzer() {
+    do {
+        if(this->growFlag) {
+            activateVibration();
+            usleep(300000);
+            deActivateVibration();
+        }
+    } while(this->direction!='p' && !this->youLoseFlag);
+}
+
+void* Snake::launchForThreadBuzzer(void* p) {
+    static_cast<Snake*>(p)->handleBuzzer();
+    return NULL;
+}
 void Snake::fillVoid()  {
     for(int i=0; i<HAUTEUR;i++) {
         for(int j = 0;j<LARGEUR;j++) {
@@ -128,7 +142,6 @@ void Snake::checkHitWall(int xHead, int yHead) {
     if (xHead == LARGEUR-1 || yHead == HAUTEUR-1|| xHead == 0 || yHead == 0)
         this->youLoseFlag = true;
 }
-
 void Snake::checkSnakeCollision(int x, int y, int xHead, int yHead) {
     if(xHead==x && yHead ==y)
         this->youLoseFlag = true;
@@ -168,9 +181,6 @@ void Snake::handleMovement(){
                 checkHitWall(xHead, yHead);
                 if(checkFruit(xHead,yHead)){
                     grow();
-                    activateVibration();
-                    for(int i=0;i<400000;i++);
-                    deActivateVibration();
                 }
                 break;
             }
@@ -198,7 +208,14 @@ void Snake::update() {
     this->handleMovement();
     this->displayGrid();
 }
-
+void Snake::handleSoundLose() {
+    if(this->youLoseFlag) {
+        cout<<"you loser, go hide yourself"<<endl;
+        activateSound();
+        usleep(500000);
+        deActivateSound();
+    }
+}
 void Snake::majSnake(){
         while (this->direction != 'p' && !this->youLoseFlag) {
             for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
@@ -208,10 +225,5 @@ void Snake::majSnake(){
             }
             this->update();
         }
-        if(this->youLoseFlag) {
-            activateSound();
-            for(int i=0;i<400000;i++);
-            deActivateSound();
-        }
-       
+        this->handleSoundLose();
 }

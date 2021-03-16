@@ -19,10 +19,12 @@ class Snake {
         void fillWalls();
         void defineStartPosition();
         void getInput();
+        void handleBuzzer();
         static void* launchForThread(void* p);
+        static void* launchForThreadBuzzer(void* p);
         void genererFruit();
         void genererCoord(int *coordx, int *coordy);
-
+        void handleSoundLose();
         void majSnake();
         void displayGrid();
         void grow();
