@@ -5,7 +5,6 @@
 
 
 int main() {
-    
     cout<<flush<<endl;
     system("clear");
     Snake game;

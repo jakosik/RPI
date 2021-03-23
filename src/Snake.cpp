@@ -1,18 +1,38 @@
 #include "../include/Snake.h"
 #include "../include/Raspberry.h"
-#include <ncurses.h>
 
+#define _XOPEN_SOURCE 1
+#define _XOPEN_SOURCE_EXTENDED 1
+#define _POSIX_C_SOURCE 200809L
+
+
+void InitGameWindow(){ 
+
+    setlocale(LC_ALL,"");
+	initscr(); // initialise the screen
+	nodelay(stdscr,TRUE);
+	keypad(stdscr, true);
+
+    cbreak();
+
+
+	noecho();
+	curs_set(0);
+
+}
 
 Snake::Snake() {
+    this->score = 0;
     wiringPiSetup ();
+    initInputsOutputs();
     growFlag=false;
     srand(time(NULL));
     defineStartPosition();
-    genererFruit();
     this->direction='q';
     youLoseFlag = false;
 
 }
+
 
 void Snake::handleBuzzer() {
     do {
@@ -30,9 +50,9 @@ void* Snake::launchForThreadBuzzer(void* p) {
 }
 
 void Snake::defineStartPosition() {
-    this->coord.push_back(make_tuple(20,23,'@'));
+    this->coord.push_back(make_tuple(20,23, L"\x23E3"));
     for(int i=22;i>18;i--) {
-        this->coord.push_back(make_tuple(20,i,'#'));
+        this->coord.push_back(make_tuple(20,i, L"\x25C8"));
     }
     
 }
@@ -65,7 +85,7 @@ void Snake::genererFruit(){
 
     coordFruit = make_tuple(x,y);
 
-    afficherFruit();
+    afficherFruit(x,y);
 }
 
 bool Snake::isSnake(int x, int y){
@@ -82,6 +102,8 @@ void Snake::grow(){
     growFlag=true;
     genererFruit();
     score+=10;
+    this->scoreBoard.entrerScore(score);
+    
 }
 
 void Snake::checkHitWall(int xHead, int yHead) {
@@ -95,8 +117,8 @@ void Snake::checkSnakeCollision(int x, int y, int xHead, int yHead) {
 
 bool Snake::checkFruit(int xHead, int yHead){
 
-    int xFruit = get<1>(coordFruit);
-    int yFruit = get<0>(coordFruit);
+    int xFruit = get<0>(coordFruit);
+    int yFruit = get<1>(coordFruit);
 
     return(xHead == xFruit && yHead == yFruit);
 }
@@ -105,7 +127,7 @@ void Snake::handleMovement(){
     int xOld, yOld,xHead,yHead;
     if (direction == 'C' || direction == 'A' || direction == 'D' || direction == 'B') {
         for (list<tuple<int, int, char>>::iterator it = this->coord.begin(); it != this->coord.end(); it++) {
-            if (get<2>((*it)) == '@') {
+            if (get<2>((*it)) == L"\x23E3") {
                 yOld = get<0>((*it));
                 xOld = get<1>((*it));
                 switch (this->direction) {
@@ -133,7 +155,7 @@ void Snake::handleMovement(){
         }
         int xTemp, yTemp; 
         for (list<tuple<int, int, char>>::iterator it2 = this->coord.begin(); it2 != this->coord.end(); it2++) {
-            if (get<2>((*it2)) != '@') {
+            if (get<2>((*it2)) != L"\x23E3") {
                 yTemp = get<0>((*it2));
                 xTemp = get<1>((*it2));
                 get<0>((*it2)) = yOld;
@@ -142,7 +164,7 @@ void Snake::handleMovement(){
                 yOld = yTemp;
                 xOld = xTemp;
                 if(growFlag){
-                    this->coord.push_back(make_tuple(yOld,xOld,'#'));
+                    this->coord.push_back(make_tuple(yOld,xOld,L"\x25C8"));
                     growFlag=false;
                 }
             }
@@ -159,6 +181,9 @@ void Snake::handleSoundLose() {
     }
 }
 void Snake::majSnake(){
+    InitGameWindow();
+    genererFruit();
+    this->fillWalls();
         while (this->direction != 'p' && !this->youLoseFlag) {
             for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
             std::chrono::system_clock::now() < runUntil;){
@@ -230,8 +255,9 @@ void Snake::fillWalls(){
 
 void Snake::defineSnakePosition() {
     for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
-        move(get<0>((*it)), get<1>((*it)));
-        addch(get<2>((*it)));
+
+        mvaddwstr(get<0>((*it)), get<1>((*it)),L"\x23E3")
+
         usleep(DELAY);
     }
 }
@@ -239,7 +265,7 @@ void Snake::defineSnakePosition() {
 void Snake::clearsnake(){
     for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
         move(get<0>((*it)), get<1>((*it)));
-        delch();
+        addch(' ');
     }
 
 }
@@ -248,12 +274,12 @@ void Snake::update() {
     this->clearsnake();
     this->handleMovement();
     this->defineSnakePosition();
+    refresh();
 }
 
 
 void Snake::afficherFruit(int x, int y){
-    move(y,x);
-    addch('&');
+    mvaddwstr(y,x,L"\x25EC");
 }
 
 

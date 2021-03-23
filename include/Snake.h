@@ -4,6 +4,8 @@
 #include <ctime>
 #include <unistd.h>
 #include <chrono>
+#include <ncurses.h>
+#include "../include/7seg.h"
 
 #define DELAY 30
 
@@ -14,6 +16,7 @@ const int PTSFRUITS = 10;
 // Caractéristiques du niveau
 const int LARGEUR = 40;
 const int HAUTEUR = 40;
+const char mur = '*';
 
 using namespace std;
 class Snake {
@@ -41,6 +44,7 @@ class Snake {
         bool isSnake(int x, int y);
         bool checkFruit(int xHead, int yHead);
         void afficherFruit(int x, int y);
+        void clearsnake();
 
 
     private:
@@ -55,7 +59,7 @@ class Snake {
         bool youLoseFlag;
         bool growFlag;
 
-        list<tuple<int, int, char>> coord;
+        list<tuple<int, int, const wchar_t>> coord;
 
         // Fruit
 
@@ -63,7 +67,8 @@ class Snake {
 
         // Score
 
-        int score=0; 
+        int score;
+        Afficheur7Seg scoreBoard;
 };
 
 

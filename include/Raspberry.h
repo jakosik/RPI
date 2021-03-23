@@ -41,3 +41,12 @@ void handleInput (char* value) {
     antiRebond(6, value, 'D');
         //vers la gauche
 }
+
+void initInputsOutputs() {
+      pinMode(25,INPUT);
+      pinMode(23,INPUT);
+      pinMode(24,INPUT);
+      pinMode(6,INPUT);
+      pinMode(1,OUTPUT);
+      pinMode(2,OUTPUT);
+}

@@ -1,3 +1,4 @@
+/*
 #include "../include/Snake.h"
 #include <ncurses.h>
 #include <unistd.h>
@@ -16,7 +17,7 @@ int maxlarg = LARGEUR;
 
 int delay = 3000;
 
-char mur = (char)219;
+
 
 
 void InitGameWindow(){ 
@@ -123,3 +124,4 @@ int main(){
 
 
 
+*/
