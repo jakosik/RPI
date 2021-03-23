@@ -4,7 +4,7 @@
 #include <ctime>
 #include <unistd.h>
 #include <chrono>
-
+#include <ncurses.h>
 #define DELAY 30
 
 // Caractéristiques des fruits 
@@ -14,6 +14,7 @@ const int PTSFRUITS = 10;
 // Caractéristiques du niveau
 const int LARGEUR = 40;
 const int HAUTEUR = 40;
+const char mur = '*';
 
 using namespace std;
 class Snake {
@@ -41,6 +42,7 @@ class Snake {
         bool isSnake(int x, int y);
         bool checkFruit(int xHead, int yHead);
         void afficherFruit(int x, int y);
+        void clearsnake();
 
 
     private:

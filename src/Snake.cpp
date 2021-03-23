@@ -1,17 +1,30 @@
 #include "../include/Snake.h"
 #include "../include/Raspberry.h"
-#include <ncurses.h>
 
+void InitGameWindow(){ 
+
+    setlocale(LC_ALL,"");
+	initscr(); // initialise the screen
+	nodelay(stdscr,TRUE);
+	keypad(stdscr, true);
+
+    cbreak();
+
+
+	noecho();
+	curs_set(0);
+
+}
 Snake::Snake() {
     wiringPiSetup ();
     growFlag=false;
     srand(time(NULL));
     defineStartPosition();
-    genererFruit();
     this->direction='q';
     youLoseFlag = false;
 
 }
+
 
 void Snake::handleBuzzer() {
     do {
@@ -64,7 +77,7 @@ void Snake::genererFruit(){
 
     coordFruit = make_tuple(x,y);
 
-    afficherFruit();
+    afficherFruit(x,y);
 }
 
 bool Snake::isSnake(int x, int y){
@@ -158,6 +171,9 @@ void Snake::handleSoundLose() {
     }
 }
 void Snake::majSnake(){
+    InitGameWindow();
+    genererFruit();
+    this->fillWalls();
         while (this->direction != 'p' && !this->youLoseFlag) {
             for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(100); 
             std::chrono::system_clock::now() < runUntil;){
@@ -238,7 +254,7 @@ void Snake::defineSnakePosition() {
 void Snake::clearsnake(){
     for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
         move(get<0>((*it)), get<1>((*it)));
-        delch();
+        addch(' ');
     }
 
 }
@@ -247,6 +263,7 @@ void Snake::update() {
     this->clearsnake();
     this->handleMovement();
     this->defineSnakePosition();
+    refresh();
 }
 
 
