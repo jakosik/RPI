@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <chrono>
 #include <ncurses.h>
+#include "../include/7seg.h"
 #define DELAY 30
 
 // Caractéristiques des fruits 
@@ -65,7 +66,8 @@ class Snake {
 
         // Score
 
-        int score=0; 
+        int score;
+        Afficheur7Seg scoreBoard;
 };
 
 

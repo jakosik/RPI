@@ -12,6 +12,7 @@
         "chrono": "cpp",
         "tuple": "cpp",
         "utility": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "sstream": "cpp"
     }
 }

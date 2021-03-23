@@ -1,7 +1,7 @@
 #include <cstdint> 
 #include <wiringPi.h> 
 #include <wiringPiI2C.h> 
-
+#include <vector>
 static const uint8_t nombres[] = { 
 	0x3F, /* 0 (abcdef)*/ 
 	0x06, /* 1 (bc)*/ 
@@ -31,9 +31,11 @@ class Afficheur7Seg {
       void ecrireRegistres();
       void clear();
       void ecrireBitsAEnvoyer(uint8_t indexNumero, uint8_t chiffre);
-
+      void entrerScore(int score);
+      void getNumberList(int score);
 
     private:
       uint16_t chiffres7Segments[4];
-      int fileDesc;     
+      int fileDesc;    
+      vector<int> listeNombresAfficher; 
 };

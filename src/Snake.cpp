@@ -16,6 +16,7 @@ void InitGameWindow(){
 
 }
 Snake::Snake() {
+    this->score = 0;
     wiringPiSetup ();
     growFlag=false;
     srand(time(NULL));
@@ -94,6 +95,8 @@ void Snake::grow(){
     growFlag=true;
     genererFruit();
     score+=10;
+    this->scoreBoard.entrerScore(score);
+    
 }
 
 void Snake::checkHitWall(int xHead, int yHead) {
@@ -107,8 +110,8 @@ void Snake::checkSnakeCollision(int x, int y, int xHead, int yHead) {
 
 bool Snake::checkFruit(int xHead, int yHead){
 
-    int xFruit = get<1>(coordFruit);
-    int yFruit = get<0>(coordFruit);
+    int xFruit = get<0>(coordFruit);
+    int yFruit = get<1>(coordFruit);
 
     return(xHead == xFruit && yHead == yFruit);
 }
