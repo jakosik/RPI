@@ -18,6 +18,7 @@ void InitGameWindow(){
 Snake::Snake() {
     this->score = 0;
     wiringPiSetup ();
+    initInputsOutputs();
     growFlag=false;
     srand(time(NULL));
     defineStartPosition();
