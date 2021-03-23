@@ -4,12 +4,17 @@
 #include <iostream>
 #include <cstdlib>
 
+#define _XOPEN_SOURCE 1
+#define _XOPEN_SOURCE_EXTENDED 1
+#define _POSIX_C_SOURCE 200809L
+
+
 using namespace std;
 
 int maxhaut = HAUTEUR;
 int maxlarg = LARGEUR;
 
-int DELAY = 3000;
+int delay = 3000;
 
 char mur = (char)219;
 
@@ -40,7 +45,7 @@ void Murs(){
     for(int i=0; i < LARGEUR; i++){
         move(0,i);
         addch(mur);
-        usleep(DELAY);
+        usleep(delay);
     }
 
     move(41,41);
@@ -48,7 +53,7 @@ void Murs(){
     for(int i=0; i < LARGEUR; i++){
         move(LARGEUR-1,i);
         addch(mur);
-        usleep(DELAY);
+        usleep(delay);
     }
 
     move(41,41);
@@ -58,7 +63,7 @@ void Murs(){
     for(int j=0; j < HAUTEUR; j++){
         move(j,0);
         addch(mur);
-        usleep(DELAY);
+        usleep(delay);
     }
 
     move(41,41);
@@ -66,7 +71,7 @@ void Murs(){
     for(int j=0; j < HAUTEUR; j++){
         move(j,HAUTEUR-1);
         addch(mur);
-        usleep(DELAY);
+        usleep(delay);
     }
 
     move(41,41);
@@ -75,18 +80,17 @@ void Murs(){
 
 void Snake(){
 
-    move(5,10);
-    addch('@');
+    mvaddwstr(5,10,L"\x23E3");
 
     for(int s=5; s < 10; s++){
-        move(5,s);
-        addch('#');
-        usleep(DELAY);
+        mvaddwstr(5,s,L"\x25C8");
+        usleep(delay);
     }
 }
 
-int main(){
 
+int main(){
+    setlocale(LC_ALL, "");
     InitGameWindow();
 
     clear();
@@ -94,7 +98,9 @@ int main(){
     Murs();
     Snake();
 
+
     move(45,45);
+
     refresh();
 
     return(0);

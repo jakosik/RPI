@@ -2,6 +2,7 @@
 #include "../include/Raspberry.h"
 #include <ncurses.h>
 
+
 Snake::Snake() {
     wiringPiSetup ();
     growFlag=false;
