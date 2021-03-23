@@ -1,5 +1,6 @@
 #include "../include/Snake.h"
 #include "../include/Raspberry.h"
+#include <ncurses.h>
 
 Snake::Snake() {
     wiringPiSetup ();
@@ -26,77 +27,13 @@ void* Snake::launchForThreadBuzzer(void* p) {
     static_cast<Snake*>(p)->handleBuzzer();
     return NULL;
 }
-void Snake::fillVoid()  {
-    for(int i=0; i<HAUTEUR;i++) {
-        for(int j = 0;j<LARGEUR;j++) {
-            this->level[i][j]=' ';
-        }
-    }
-}
-
-void Snake::displayGrid(){
-    fillVoid();
-    fillWalls();
-    defineSnakePosition();
-    system("clear");
-    this->level[get<0>(coordFruit)][get<1>(coordFruit)] = '&';
-    for(int j=0;j<HAUTEUR;j++){
-        for(int i=0;i<LARGEUR;i++) {
-            cout<<this->level[j][i];
-        }
-        cout<<endl;
-    }
-}
-
-void Snake::defineSnakePosition() {
-    for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
-        this->level[get<0>((*it))][get<1>((*it))] = get<2>((*it));
-    }
-}
 
 void Snake::defineStartPosition() {
     this->coord.push_back(make_tuple(20,23,'@'));
     for(int i=22;i>18;i--) {
         this->coord.push_back(make_tuple(20,i,'#'));
-    }   
+    }
     
-}
-
-void Snake::fillWalls(){
-    // La fonction remplis les murs pour visuel et collisions
-    for(int i=1;i<=HAUTEUR-2;i++){
-        level[i][0]='|';
-        level[i][LARGEUR-1]='|';
-    }
-    for(int j=0;j<=LARGEUR-1;j++){
-        level[0][j]='_';
-        level[HAUTEUR-1][j]='*';
-    }
-    level[0][0]=' ';
-    level[0][LARGEUR-1]=' ';
-
-    // La matrice ressemble alors à :
-
-/*
-
- __________________
-|                  |
-|                  |
-|                  |
-|                  |
-|                  |
-|                  |
-|                  |
-********************
-
-**/
-}
-
-void Snake::genererCoord(int *coordx, int *coordy){
-
-    *coordx = rand()%(LARGEUR-2)+1;
-    *coordy = rand()%(HAUTEUR-2)+1;
-
 }
 
 void Snake::getInput() {
@@ -110,6 +47,14 @@ void* Snake::launchForThread(void* p) {
     return NULL;
 }
 
+
+void Snake::genererCoord(int *coordx, int *coordy){
+
+    *coordx = rand()%(LARGEUR-2)+1;
+    *coordy = rand()%(HAUTEUR-2)+1;
+
+}
+
 void Snake::genererFruit(){
     int x,y;
 
@@ -118,8 +63,8 @@ void Snake::genererFruit(){
     } while(!isSnake(x,y));
 
     coordFruit = make_tuple(x,y);
-    level[y][x] = '&';
 
+    afficherFruit();
 }
 
 bool Snake::isSnake(int x, int y){
@@ -204,10 +149,6 @@ void Snake::handleMovement(){
     }
 }
 
-void Snake::update() {
-    this->handleMovement();
-    this->displayGrid();
-}
 void Snake::handleSoundLose() {
     if(this->youLoseFlag) {
         cout<<"you loser, go hide yourself"<<endl;
@@ -226,4 +167,92 @@ void Snake::majSnake(){
             this->update();
         }
         this->handleSoundLose();
+
 }
+
+// ****************************************** OPTION GRAPHIQUE **********************//
+
+void Snake::fillWalls(){
+    // La fonction remplis les murs pour visuel et collisions
+
+    for(int i=0; i < LARGEUR; i++){
+        move(0,i);
+        addch(mur);
+        usleep(DELAY);
+    }
+
+    move(41,41);
+
+    for(int i=0; i < LARGEUR; i++){
+        move(LARGEUR-1,i);
+        addch(mur);
+        usleep(DELAY);
+    }
+
+    move(41,41);
+
+    // Construction des murs bas et haut
+
+    for(int j=0; j < HAUTEUR; j++){
+        move(j,0);
+        addch(mur);
+        usleep(DELAY);
+    }
+
+    move(41,41);
+
+    for(int j=0; j < HAUTEUR; j++){
+        move(j,HAUTEUR-1);
+        addch(mur);
+        usleep(DELAY);
+    }
+
+    move(41,41);
+
+    // La matrice ressemble alors à :
+
+/*
+
+********************
+*                  *
+*                  *
+*                  *
+*                  *
+*                  *
+*                  *
+*                  *
+********************
+
+**/
+
+}
+
+void Snake::defineSnakePosition() {
+    for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
+        move(get<0>((*it)), get<1>((*it)));
+        addch(get<2>((*it)));
+        usleep(DELAY);
+    }
+}
+
+void Snake::clearsnake(){
+    for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
+        move(get<0>((*it)), get<1>((*it)));
+        delch();
+    }
+
+}
+
+void Snake::update() {
+    this->clearsnake();
+    this->handleMovement();
+    this->defineSnakePosition();
+}
+
+
+void Snake::afficherFruit(int x, int y){
+    move(y,x);
+    addch('&');
+}
+
+

@@ -5,9 +5,13 @@
 #include <unistd.h>
 #include <chrono>
 
+#define DELAY 30
+
 // Caractéristiques des fruits 
 const int NBFRUITMAX = 1;
 const int PTSFRUITS = 10;
+
+// Caractéristiques du niveau
 const int LARGEUR = 40;
 const int HAUTEUR = 40;
 
@@ -36,6 +40,8 @@ class Snake {
         void checkSnakeCollision(int x, int y, int xHead, int yHead);
         bool isSnake(int x, int y);
         bool checkFruit(int xHead, int yHead);
+        void afficherFruit(int x, int y);
+
 
     private:
         // Caractéristiques du level

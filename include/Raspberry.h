@@ -1,7 +1,9 @@
 #include <iostream>
 #include <stdio.h>
 #include <wiringPi.h>
-#include<stdlib.h>
+#include <stdlib.h>
+
+
 void activateVibration() {
     digitalWrite (2, HIGH);
 }
@@ -17,6 +19,7 @@ void deActivateVibration() {
 void deActivateSound() {
     digitalWrite (1, LOW);
 }
+
 bool antiRebond(int pin, char* value, char newValue) {
     if(digitalRead(pin) == 0) {
         *value = newValue;

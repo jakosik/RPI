@@ -1,5 +1,7 @@
 #include "stdlib.h"
 #include <iostream>
+
+
 using namespace std;
 
 enum choice {play,quit};
@@ -32,6 +34,7 @@ void displayTextInMenu(string toDisplay, int color = NORMAL){
     cout<<"|"<< string(int(totalSpaces/2), ' ')<<colorOutput(color)<< toDisplay<<colorOutput(NORMAL)
     <<secondSpace<<"|"<<endl;
 }
+
 int displayMenu() {
     displayBorder(false);
     displayTextInMenu("SNAKE, THE ORIGINAL GAME", GREEN);
