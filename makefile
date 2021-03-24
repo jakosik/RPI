@@ -1,12 +1,10 @@
-OBJDIR=build
 INCLUDEDIRECTORY=include
-gcc_croise =  /home/jako/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-c++
-CXXFLAGS = -std=c++11 -pthread -I$(INCLUDEDIRECTORY) -I/home/jako/RPI/wiringfPi/target_wpi/include -I/home/jako/RPI/wiringfPi/ -I/home/jako/RPI/ncurses/target_nc_pi/include/ -I/home/jako/RPI/ncurses/target_nc_pi/include/ncurses/
-LDLIBS = -L/home/jako/RPI/wiringfPi/target_wpi/lib -L /home/jako/RPI/ncurses/target_nc_pi/lib -lwiringPi -lwiringPiDev -lncurses -lncursesw
-WIRINGPI= -L /home/jako/RPI/wiringfPi/target_wpi/include/wiringPi.h -L /home/jako/RPI/ncurses/target_nc_pi/include/ncurses/ncurses.h -L /home/jako/RPI/ncurses/target_nc_pi/include/ncurses/ncursesw.h
+gcc_croise =  g++ 
+CXXFLAGS = -std=c++11 -pthread 
 HEADERS = $(wildcard include/*.h)
-OBJECTS = $(wildcard $(OBJDIR)/*.o)
+OBJECTS = $(wildcard $(SRC)/*.o)
 SRC= src
+LDLIBS= -lncurses -lncursesw -lwiringPi
 PRJSRC= $(wildcard $(SRC)/*.cpp)
 CPPFILES=$(filter %.cpp, $(PRJSRC))
 OBJDEPS=$(CPPFILES:.cpp=.o)
@@ -21,5 +19,6 @@ ${SRC}/%.o: ${SRC}/%.cpp
 $(OBJECTS): $(HEADERS)
 
 clean:
-	-rm -f  ${SRC}/*.o
-	-rm -f bin/main
+	-rm -f $(OBJECTS)
+	-rm -f main
+ 

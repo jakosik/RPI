@@ -1,10 +1,7 @@
 #include "../include/Snake.h"
-// #include "../include/Raspberry.h"
+ #include "../include/Raspberry.h"
 
 #define _XOPEN_SOURCE 1
-#define mvaddwstr(y,x,wstr) mvwaddwstr(stdscr,(y),(x),(wstr))
-#define mvwaddwstr(win,y,x,wstr) (wmove(win,(y),(x)) == ERR ? ERR : waddwstr((win),(wstr)))
-#define waddwstr(win,wstr) waddnwstr((win),(wstr),-1)
 #define _XOPEN_SOURCE_EXTENDED 1
 
 #define _POSIX_C_SOURCE 200809L
@@ -233,7 +230,7 @@ void Snake::fillWalls(){
         // move(j,0);
         // addch(mur);
 
-        mvaddwstr(0,i,L"\x2588");
+        mvaddwstr(0,j,L"\x2588");
 
 
         usleep(DELAY);
@@ -245,7 +242,7 @@ void Snake::fillWalls(){
         // move(j,HAUTEUR-1);
         // addch(mur);
 
-        mvaddwstr(0,i,L"\x2588");
+        mvaddwstr(0,j,L"\x2588");
         usleep(DELAY);
     }
 
