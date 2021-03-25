@@ -47,3 +47,13 @@ int displayMenu() {
     cin >> retour;
     return retour;
 }
+
+void displayLoseMenu(int score) {
+    displayBorder(false);
+    displayTextInMenu("YOU LOSE BADLY", RED);
+    displayBorder(true);
+    displayTextInMenu("COME ON I KNOW YOU CAN DO BETTER", BLUE);
+    displayTextInMenu("YOU ACTUALLY MANAGED TO GET THIS HIGHSCORE: "+ to_string(score), BLUE);
+    displayTextInMenu("BUT THERE IS STILL ROOM FOR IMPROVEMENT, COME SEE US AGAIN, BYE", BLUE);
+    displayBorder(true);
+}

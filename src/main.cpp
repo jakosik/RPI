@@ -20,7 +20,9 @@ int main() {
             restaurerConfigTerminal();
             pthread_join(retSon, NULL);
             pthread_join(retSnake, NULL);
-            
+            usleep(500000);
+            system("clear");
+            displayLoseMenu(game.getScore());
         case quit:
             exit(0);
     }

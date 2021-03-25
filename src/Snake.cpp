@@ -168,9 +168,10 @@ void Snake::handleMovement(){
 
 void Snake::handleSoundLose() {
     if(this->youLoseFlag) {
+        move(0,HAUTEUR+2);
         cout<<"you loser, go hide yourself"<<endl;
         activateSound();
-        usleep(500000);
+        usleep(700000);
         deActivateSound();
     }
 }
@@ -276,4 +277,7 @@ void Snake::afficherFruit(int x, int y){
     addch('&');
 }
 
+int Snake::getScore(){
+    return score;
+}
 

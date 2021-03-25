@@ -15,7 +15,7 @@ const int PTSFRUITS = 10;
 // Caractéristiques du niveau
 const int LARGEUR = 40;
 const int HAUTEUR = 40;
-const char mur = '*';
+const char mur = (char)215;
 
 using namespace std;
 class Snake {
@@ -44,6 +44,7 @@ class Snake {
         bool checkFruit(int xHead, int yHead);
         void afficherFruit(int x, int y);
         void clearsnake();
+        int getScore();
 
 
     private:
