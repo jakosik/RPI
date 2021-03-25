@@ -1,5 +1,5 @@
-/*
-#include "../include/Snake.h"
+// #include "../include/Snake.h"
+
 #include <ncurses.h>
 #include <unistd.h>
 #include <iostream>
@@ -12,12 +12,10 @@
 
 using namespace std;
 
-int maxhaut = HAUTEUR;
-int maxlarg = LARGEUR;
+int maxhaut = 40;
+int maxlarg = 40;
 
 int delay = 3000;
-
-
 
 
 void InitGameWindow(){ 
@@ -43,17 +41,21 @@ void Murs(){
     // Construction des murs droits et gauche
 
 
-    for(int i=0; i < LARGEUR; i++){
-        move(0,i);
-        addch(mur);
+    for(int i=0; i < 40; i++){
+
+        mvaddwstr(0,i,L"\x2588");
+        // move(0,i);
+        // addch(mur);
         usleep(delay);
     }
 
     move(41,41);
 
-    for(int i=0; i < LARGEUR; i++){
-        move(LARGEUR-1,i);
-        addch(mur);
+    for(int i=0; i < 40; i++){
+
+        mvaddwstr(40-1,i,L"\x2588");
+        // move(maxlarg-1,i);
+        // addch(mur);
         usleep(delay);
     }
 
@@ -61,17 +63,21 @@ void Murs(){
 
     // Construction des murs bas et haut
 
-    for(int j=0; j < HAUTEUR; j++){
-        move(j,0);
-        addch(mur);
+    for(int j=0; j < 40; j++){
+
+        mvaddwstr(j,0,L"\x2588");
+        // move(j,0);
+        // addch(mur);
         usleep(delay);
     }
 
     move(41,41);
 
-    for(int j=0; j < HAUTEUR; j++){
-        move(j,HAUTEUR-1);
-        addch(mur);
+    for(int j=0; j < 40; j++){
+
+        mvaddwstr(j,40-1,L"\x2588");
+        // move(j,maxlarg-1);
+        //addch(mur);
         usleep(delay);
     }
 
@@ -115,13 +121,3 @@ int main(){
 
 
 
-
-
-
-
-
-
-
-
-
-*/

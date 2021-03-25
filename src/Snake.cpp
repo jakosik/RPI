@@ -1,5 +1,5 @@
 #include "../include/Snake.h"
-#include "../include/Raspberry.h"
+// #include "../include/Raspberry.h"
 
 #define _XOPEN_SOURCE 1
 #define _XOPEN_SOURCE_EXTENDED 1
@@ -202,16 +202,22 @@ void Snake::fillWalls(){
     // La fonction remplis les murs pour visuel et collisions
 
     for(int i=0; i < LARGEUR; i++){
-        move(0,i);
-        addch(mur);
+        // move(0,i);
+        // addch(mur);
+
+        mvaddwstr(0,i,L"\x2588");
+
         usleep(DELAY);
     }
 
     move(41,41);
 
     for(int i=0; i < LARGEUR; i++){
-        move(LARGEUR-1,i);
-        addch(mur);
+        // move(LARGEUR-1,i);
+        // addch(mur);
+
+        mvaddwstr(0,i,L"\x2588");
+
         usleep(DELAY);
     }
 
@@ -220,16 +226,22 @@ void Snake::fillWalls(){
     // Construction des murs bas et haut
 
     for(int j=0; j < HAUTEUR; j++){
-        move(j,0);
-        addch(mur);
+        // move(j,0);
+        // addch(mur);
+
+        mvaddwstr(0,i,L"\x2588");
+
+
         usleep(DELAY);
     }
 
     move(41,41);
 
     for(int j=0; j < HAUTEUR; j++){
-        move(j,HAUTEUR-1);
-        addch(mur);
+        // move(j,HAUTEUR-1);
+        // addch(mur);
+
+        mvaddwstr(0,i,L"\x2588");
         usleep(DELAY);
     }
 
