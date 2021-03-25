@@ -2,7 +2,11 @@
 // #include "../include/Raspberry.h"
 
 #define _XOPEN_SOURCE 1
+#define mvaddwstr(y,x,wstr) mvwaddwstr(stdscr,(y),(x),(wstr))
+#define mvwaddwstr(win,y,x,wstr) (wmove(win,(y),(x)) == ERR ? ERR : waddwstr((win),(wstr)))
+#define waddwstr(win,wstr) waddnwstr((win),(wstr),-1)
 #define _XOPEN_SOURCE_EXTENDED 1
+
 #define _POSIX_C_SOURCE 200809L
 
 
@@ -90,7 +94,7 @@ void Snake::genererFruit(){
 
 bool Snake::isSnake(int x, int y){
     bool confirmation = true; // Bool qui dit si on est dans serpent ou pas
-    for(list<tuple<int, int, char>>::iterator itcoord = this->coord.begin(); itcoord != this->coord.end(); itcoord++){
+    for(auto itcoord = this->coord.begin(); itcoord != this->coord.end(); itcoord++){
         if(get<0>((*itcoord)) == y || get<1>((*itcoord)) == x){
             confirmation=false;
         }
@@ -126,7 +130,7 @@ bool Snake::checkFruit(int xHead, int yHead){
 void Snake::handleMovement(){
     int xOld, yOld,xHead,yHead;
     if (direction == 'C' || direction == 'A' || direction == 'D' || direction == 'B') {
-        for (list<tuple<int, int, char>>::iterator it = this->coord.begin(); it != this->coord.end(); it++) {
+        for (auto it = this->coord.begin(); it != this->coord.end(); it++) {
             if (get<2>((*it)) == L"\x23E3") {
                 yOld = get<0>((*it));
                 xOld = get<1>((*it));
@@ -154,7 +158,7 @@ void Snake::handleMovement(){
             }
         }
         int xTemp, yTemp; 
-        for (list<tuple<int, int, char>>::iterator it2 = this->coord.begin(); it2 != this->coord.end(); it2++) {
+        for (auto it2 = this->coord.begin(); it2 != this->coord.end(); it2++) {
             if (get<2>((*it2)) != L"\x23E3") {
                 yTemp = get<0>((*it2));
                 xTemp = get<1>((*it2));
@@ -266,16 +270,17 @@ void Snake::fillWalls(){
 }
 
 void Snake::defineSnakePosition() {
-    for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
-
-        mvaddwstr(get<0>((*it)), get<1>((*it)),L"\x23E3")
-
+    for(auto it = this->coord.begin(); it!= this->coord.end();it++) {
+        move(get<0>((*it)), get<1>((*it)));
+//        waddch(L"\x23E3");
+        mvaddwstr(get<0>((*it)), get<1>((*it)),L"\x23E3");
+        
         usleep(DELAY);
     }
 }
 
 void Snake::clearsnake(){
-    for(list<tuple<int, int, char>>::iterator it = this->coord.begin(); it!= this->coord.end();it++) {
+    for(auto it = this->coord.begin(); it!= this->coord.end();it++) {
         move(get<0>((*it)), get<1>((*it)));
         addch(' ');
     }

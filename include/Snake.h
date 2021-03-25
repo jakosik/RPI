@@ -6,7 +6,6 @@
 #include <chrono>
 #include <ncurses.h>
 #include "../include/7seg.h"
-
 #define DELAY 30
 
 // Caractéristiques des fruits 
@@ -59,7 +58,7 @@ class Snake {
         bool youLoseFlag;
         bool growFlag;
 
-        list<tuple<int, int, const wchar_t>> coord;
+        list<tuple<int, int, const  wchar_t*>> coord;
 
         // Fruit
 
