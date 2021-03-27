@@ -13,9 +13,9 @@ const int NBFRUITMAX = 1;
 const int PTSFRUITS = 10;
 
 // Caractéristiques du niveau
-const int LARGEUR = 40;
-const int HAUTEUR = 40;
-const char mur = (char)215;
+const int LARGEUR = 80;
+const int HAUTEUR = 30;
+const char mur = '*';
 
 using namespace std;
 class Snake {

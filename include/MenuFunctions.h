@@ -1,4 +1,5 @@
 #include "stdlib.h"
+#include "FileHandler.h"
 #include <iostream>
 
 
@@ -49,11 +50,29 @@ int displayMenu() {
 }
 
 void displayLoseMenu(int score) {
-    displayBorder(false);
-    displayTextInMenu("YOU LOSE BADLY", RED);
-    displayBorder(true);
-    displayTextInMenu("COME ON I KNOW YOU CAN DO BETTER", BLUE);
-    displayTextInMenu("YOU ACTUALLY MANAGED TO GET THIS HIGHSCORE: "+ to_string(score), BLUE);
-    displayTextInMenu("BUT THERE IS STILL ROOM FOR IMPROVEMENT, COME SEE US AGAIN, BYE", BLUE);
-    displayBorder(true);
+    if(score<getScoreFile()) {
+        displayBorder(false);
+        displayTextInMenu("YOU LOSE", RED);
+        displayBorder(true);
+        displayTextInMenu("COME ON I KNOW YOU CAN DO BETTER", BLUE);
+        displayTextInMenu("YOU ACTUALLY MANAGED TO GET THIS HIGHSCORE: "+ to_string(score), BLUE);
+        displayTextInMenu("BUT THERE IS STILL ROOM FOR IMPROVEMENT, COME SEE US AGAIN, BYE", BLUE);
+        displayTextInMenu("CURRENT RECORD IS " + to_string(getScoreFile()) , BLUE);
+        displayTextInMenu("YOU CAN BEAT IT, NEVER SAY NEVER", BLUE);
+        displayTextInMenu("WHEN THERE'S LIFE, THERE'S HOPE", BLUE);
+        displayTextInMenu("WHEN THERE IS A WILL THERE IS A WAY", BLUE);
+        displayBorder(true);
+    }
+    else {
+        displayBorder(false);
+        displayTextInMenu("CONGRATULATIONS!!", GREEN);
+        displayBorder(true);
+        displayTextInMenu("YOU MANAGED TO BEAT THE CURRENT RECORD !", BLUE);
+        displayTextInMenu("YOU ACTUALLY MANAGED TO GET THIS HIGHSCORE: "+ to_string(score), BLUE);
+        displayTextInMenu("YOU'RE GOOD, BUT DON'T GET TOO CONFIDENT", BLUE);
+        displayTextInMenu("THE OLD RECORD WAS " + to_string(getScoreFile()) , BLUE);
+        displayBorder(true);
+        writeScoreFile(score);
+    }
+    
 }

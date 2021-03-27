@@ -168,8 +168,8 @@ void Snake::handleMovement(){
 
 void Snake::handleSoundLose() {
     if(this->youLoseFlag) {
-        move(0,HAUTEUR+2);
-        cout<<"you loser, go hide yourself"<<endl;
+        move(HAUTEUR+2,0);
+        printw("OOOW noo :( you lose :(");
         activateSound();
         usleep(700000);
         deActivateSound();
@@ -202,15 +202,15 @@ void Snake::fillWalls(){
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     for(int i=0; i < LARGEUR; i++){
-        move(LARGEUR-1,i);
+        move(HAUTEUR-1,i);
         addch(mur);
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     // Construction des murs bas et haut
 
@@ -220,15 +220,15 @@ void Snake::fillWalls(){
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     for(int j=0; j < HAUTEUR; j++){
-        move(j,HAUTEUR-1);
+        move(j,LARGEUR-1);
         addch(mur);
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     // La matrice ressemble alors à :
 
