@@ -26,6 +26,9 @@ Snake::Snake() {
     youLoseFlag = false;
 
 }
+Snake::~Snake() {
+    this->scoreBoard.eteindre();
+}
 
 
 void Snake::handleBuzzer() {

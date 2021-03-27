@@ -28,6 +28,7 @@ class Afficheur7Seg {
 
     public:
       Afficheur7Seg();
+      void eteindre();
       void ecrireRegistres();
       void clear();
       void ecrireBitsAEnvoyer(uint8_t indexNumero, uint8_t chiffre);

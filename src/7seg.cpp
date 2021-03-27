@@ -15,7 +15,20 @@ Afficheur7Seg::Afficheur7Seg() {
   ecrireBitsAEnvoyer(3,0);
   ecrireRegistres();
 }
-
+void Afficheur7Seg::eteindre() {
+   uint8_t addr = (uint8_t) 0x00;	 //addresse du registre
+  uint8_t i=0; 
+  for(i=0 ; i<4 ; i++) { 
+	if(i==2)
+      {
+        wiringPiI2CWriteReg8(this->fileDesc, addr++, 0b00); // on met les deux points à 0 car on ne veut pas de double points.
+        addr++;
+      }
+	        
+        wiringPiI2CWriteReg8(this->fileDesc, addr++, 0);
+        addr++;
+  }  
+}
 
 void Afficheur7Seg::ecrireRegistres() { 
   uint8_t addr = (uint8_t) 0x00;	 //addresse du registre

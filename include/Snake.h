@@ -22,6 +22,7 @@ class Snake {
 
     public:
         Snake();
+        ~Snake();
         void fillWalls();
         void defineStartPosition();
         void getInput();

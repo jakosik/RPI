@@ -5,7 +5,7 @@
 
 using namespace std;
 
-enum choice {play,quit};
+enum choice {play,highscore,quit};
 enum color {RED, YELLOW, NORMAL, GREEN, BLUE };
 void displayBorder(bool separator) {
     string conditionnalPart = separator?"|":" ";
@@ -42,11 +42,26 @@ int displayMenu() {
     displayBorder(true);
     displayTextInMenu("OPTIONS:", BLUE);
     displayTextInMenu("1. PLAY", YELLOW);
-    displayTextInMenu("2. QUIT", YELLOW);
+    displayTextInMenu("2. SHOW CURRENT RECORD", YELLOW);
+    displayTextInMenu("3. QUIT", YELLOW);
     displayBorder(true);
     int retour;
     cin >> retour;
+    system("clear");
     return retour;
+}
+
+void displayMenuScore() {
+    displayBorder(false);
+    displayTextInMenu("CURRENT HIGHSCORE", GREEN);
+    displayBorder(true);
+    displayTextInMenu("THE CURRENT RECORD IS " + to_string(getScoreFile()), YELLOW);
+    displayTextInMenu("PRESS ANY KEY FOLLOWED BY THE ENTER KEY TO GO BACK TO MAIN MENU", NORMAL);
+    displayBorder(true);
+    string retour;
+    cin>>retour;
+    system("clear");
+
 }
 
 void displayLoseMenu(int score) {
@@ -74,5 +89,4 @@ void displayLoseMenu(int score) {
         displayBorder(true);
         writeScoreFile(score);
     }
-    
 }
