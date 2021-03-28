@@ -1,10 +1,6 @@
 #include "../include/Snake.h"
  #include "../include/Raspberry.h"
 
-#define _XOPEN_SOURCE 1
-#define _XOPEN_SOURCE_EXTENDED 1
-
-#define _POSIX_C_SOURCE 200809L
 
 
 void InitGameWindow(){ 
@@ -33,6 +29,9 @@ Snake::Snake() {
     youLoseFlag = false;
 
 }
+Snake::~Snake() {
+    this->scoreBoard.shutdown();
+}
 
 
 void Snake::handleBuzzer() {
@@ -51,16 +50,15 @@ void* Snake::launchForThreadBuzzer(void* p) {
 }
 
 void Snake::defineStartPosition() {
-    this->coord.push_back(make_tuple(20,23, L"\x23E3"));
+    this->coord.push_back(make_tuple(20,23, '@'));
     for(int i=22;i>18;i--) {
-        this->coord.push_back(make_tuple(20,i, L"\x25C8"));
+        this->coord.push_back(make_tuple(20,i, '#'));
     }
     
 }
 
 void Snake::getInput() {
     do {
-        // this->direction=getchar();
         handleInput(&(this->direction));
     } while(this->direction!='p' && !this->youLoseFlag);
 }
@@ -103,7 +101,7 @@ void Snake::grow(){
     growFlag=true;
     genererFruit();
     score+=10;
-    this->scoreBoard.entrerScore(score);
+    this->scoreBoard.displayScore(score);
     
 }
 
@@ -128,7 +126,7 @@ void Snake::handleMovement(){
     int xOld, yOld,xHead,yHead;
     if (direction == 'C' || direction == 'A' || direction == 'D' || direction == 'B') {
         for (auto it = this->coord.begin(); it != this->coord.end(); it++) {
-            if (get<2>((*it)) == L"\x23E3") {
+            if (get<2>((*it)) == '@') {
                 yOld = get<0>((*it));
                 xOld = get<1>((*it));
                 switch (this->direction) {
@@ -156,7 +154,7 @@ void Snake::handleMovement(){
         }
         int xTemp, yTemp; 
         for (auto it2 = this->coord.begin(); it2 != this->coord.end(); it2++) {
-            if (get<2>((*it2)) != L"\x23E3") {
+            if (get<2>((*it2)) != '@') {
                 yTemp = get<0>((*it2));
                 xTemp = get<1>((*it2));
                 get<0>((*it2)) = yOld;
@@ -165,7 +163,7 @@ void Snake::handleMovement(){
                 yOld = yTemp;
                 xOld = xTemp;
                 if(growFlag){
-                    this->coord.push_back(make_tuple(yOld,xOld,L"\x25C8"));
+                    this->coord.push_back(make_tuple(yOld,xOld,'#'));
                     growFlag=false;
                 }
             }
@@ -175,9 +173,8 @@ void Snake::handleMovement(){
 
 void Snake::handleSoundLose() {
     if(this->youLoseFlag) {
-        cout<<"you loser, go hide yourself"<<endl;
         activateSound();
-        usleep(500000);
+        usleep(700000);
         deActivateSound();
     }
 }
@@ -200,53 +197,41 @@ void Snake::majSnake(){
 // ****************************************** OPTION GRAPHIQUE **********************//
 
 void Snake::fillWalls(){
-    // La fonction remplis les murs pour visuel et collisions
+    // La fonction remplit les murs pour visuel et collisions
 
     for(int i=0; i < LARGEUR; i++){
-        // move(0,i);
-        // addch(mur);
-
-        mvaddwstr(0,i,L"\x2588");
-
+        move(0,i);
+        addch(mur);
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     for(int i=0; i < LARGEUR; i++){
-        // move(LARGEUR-1,i);
-        // addch(mur);
-
-        mvaddwstr(0,i,L"\x2588");
-
+        move(HAUTEUR-1,i);
+        addch(mur);
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     // Construction des murs bas et haut
 
     for(int j=0; j < HAUTEUR; j++){
-        // move(j,0);
-        // addch(mur);
-
-        mvaddwstr(0,j,L"\x2588");
-
-
+        move(j,0);
+        addch(mur);
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     for(int j=0; j < HAUTEUR; j++){
-        // move(j,HAUTEUR-1);
-        // addch(mur);
-
-        mvaddwstr(0,j,L"\x2588");
+        move(j,LARGEUR-1);
+        addch(mur);
         usleep(DELAY);
     }
 
-    move(41,41);
+    move(LARGEUR+1,HAUTEUR+1);
 
     // La matrice ressemble alors à :
 
@@ -269,9 +254,7 @@ void Snake::fillWalls(){
 void Snake::defineSnakePosition() {
     for(auto it = this->coord.begin(); it!= this->coord.end();it++) {
         move(get<0>((*it)), get<1>((*it)));
-//        waddch(L"\x23E3");
-        mvaddwstr(get<0>((*it)), get<1>((*it)),L"\x23E3");
-        
+        addch(get<2>((*it)));
         usleep(DELAY);
     }
 }
@@ -293,7 +276,11 @@ void Snake::update() {
 
 
 void Snake::afficherFruit(int x, int y){
-    mvaddwstr(y,x,L"\x25EC");
+    move(y,x);
+    addch('&');
 }
 
+int Snake::getScore(){
+    return score;
+}
 
