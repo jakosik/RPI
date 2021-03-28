@@ -27,7 +27,7 @@ Snake::Snake() {
 
 }
 Snake::~Snake() {
-    this->scoreBoard.eteindre();
+    this->scoreBoard.shutdown();
 }
 
 
@@ -99,7 +99,7 @@ void Snake::grow(){
     growFlag=true;
     genererFruit();
     score+=10;
-    this->scoreBoard.entrerScore(score);
+    this->scoreBoard.displayScore(score);
     
 }
 
@@ -171,8 +171,6 @@ void Snake::handleMovement(){
 
 void Snake::handleSoundLose() {
     if(this->youLoseFlag) {
-        move(HAUTEUR+2,0);
-        printw("OOOW noo :( you lose :(");
         activateSound();
         usleep(700000);
         deActivateSound();

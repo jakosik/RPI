@@ -1,4 +1,4 @@
-#include "../include/7seg.h"
+#include "../include/Afficheur7seg.h"
 #include <iostream>
 #include "string.h"
 
@@ -9,13 +9,13 @@ Afficheur7Seg::Afficheur7Seg() {
   wiringPiI2CWrite(this->fileDesc, 0x81); //display on + blinking off 
   wiringPiI2CWrite(this->fileDesc, 0xEF); //duty cycle max, donc brightness au max.
   clear();
-  ecrireBitsAEnvoyer(0,0);
-  ecrireBitsAEnvoyer(1,0);
-  ecrireBitsAEnvoyer(2,0);
-  ecrireBitsAEnvoyer(3,0);
-  ecrireRegistres();
+  writeBitsToSend(0,0);
+  writeBitsToSend(1,0);
+  writeBitsToSend(2,0);
+  writeBitsToSend(3,0);
+  writeRegisters();
 }
-void Afficheur7Seg::eteindre() {
+void Afficheur7Seg::shutdown() {
    uint8_t addr = (uint8_t) 0x00;	 //addresse du registre
   uint8_t i=0; 
   for(i=0 ; i<4 ; i++) { 
@@ -30,7 +30,7 @@ void Afficheur7Seg::eteindre() {
   }  
 }
 
-void Afficheur7Seg::ecrireRegistres() { 
+void Afficheur7Seg::writeRegisters() { 
   uint8_t addr = (uint8_t) 0x00;	 //addresse du registre
   uint8_t i=0; 
   for(i=0 ; i<4 ; i++) { 
@@ -40,7 +40,7 @@ void Afficheur7Seg::ecrireRegistres() {
         addr++;
       }
 	        
-        wiringPiI2CWriteReg8(this->fileDesc, addr++, chiffres7Segments[i]);
+        wiringPiI2CWriteReg8(this->fileDesc, addr++, digits7Segments[i]);
         addr++;
   }  
 } 
@@ -48,24 +48,24 @@ void Afficheur7Seg::ecrireRegistres() {
 void Afficheur7Seg::clear() { 
   uint8_t i=0; 
   for (i=0; i<4; i++) { 
-    chiffres7Segments[i] = 0; 
+    digits7Segments[i] = 0; 
   } 
 } 
 
-void Afficheur7Seg::ecrireBitsAEnvoyer(uint8_t indexNumero, uint8_t chiffre) {
-  if(indexNumero <=9)
-  chiffres7Segments[indexNumero] = nombres[chiffre];
+void Afficheur7Seg::writeBitsToSend(uint8_t indexNumber, uint8_t digit) {
+  if(indexNumber <=9)
+  digits7Segments[indexNumber] = numbers[digit];
 }
 
 
 
-void Afficheur7Seg::entrerScore(int score) {
+void Afficheur7Seg::displayScore(int score) {
   int i=3;
     do {
         int mod = score% 10;
-        ecrireBitsAEnvoyer(i,mod);
+        writeBitsToSend(i,mod);
         score = score / 10;
       i--;
     } while(score > 0 && i>=0);
-    ecrireRegistres();
+    writeRegisters();
 }

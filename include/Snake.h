@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <chrono>
 #include <ncurses.h>
-#include "../include/7seg.h"
+#include "../include/Afficheur7seg.h"
 #define DELAY 30
 
 // Caractéristiques des fruits 
@@ -23,16 +23,22 @@ class Snake {
     public:
         Snake();
         ~Snake();
+        int getScore();
+        void majSnake();
+        static void* launchForThread(void* p);
+        static void* launchForThreadBuzzer(void* p);
+    private:
+        // Caractéristiques du level
+        char level [HAUTEUR][LARGEUR];
+
+        // Caractéristiques du serpent 
         void fillWalls();
         void defineStartPosition();
         void getInput();
         void handleBuzzer();
-        static void* launchForThread(void* p);
-        static void* launchForThreadBuzzer(void* p);
         void genererFruit();
         void genererCoord(int *coordx, int *coordy);
         void handleSoundLose();
-        void majSnake();
         void displayGrid();
         void grow();
         void update();
@@ -45,21 +51,9 @@ class Snake {
         bool checkFruit(int xHead, int yHead);
         void afficherFruit(int x, int y);
         void clearsnake();
-        int getScore();
-
-
-    private:
-        // Caractéristiques du level
-        char level [HAUTEUR][LARGEUR];
-
-        // Caractéristiques du serpent 
-
-        int taille=5;
         char direction;
-
         bool youLoseFlag;
         bool growFlag;
-
         list<tuple<int, int, char>> coord;
 
         // Fruit
